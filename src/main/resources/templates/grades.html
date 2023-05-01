@@ -103,8 +103,8 @@
   <body>
 
     <div class="topnav">
-      <a>Form</a>
-      <a>Grades</a>
+      <a th:href="@{/form}">Form</a>
+      <a th:href="@{/grades}">Grades</a>
     </div>
 
     <div class= "container">
@@ -119,7 +119,7 @@
           <td th:text="${grade.name}"></td>
           <td th:text="${grade.subject}"></td>
           <td th:text="${grade.grade}"></td>
-          <td><a role="button" class="update" th:href="@{/form(name=${grade.name})}">Update</a></td>
+          <td><a role="button" class="update" th:href="@{/form(id=${grade.id})}">Update</a></td>
         </tr>
       </table>
     </div>
