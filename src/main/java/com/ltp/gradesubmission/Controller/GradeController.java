@@ -1,5 +1,9 @@
-package com.ltp.gradesubmission;
+package com.ltp.gradesubmission.Controller;
 
+import com.ltp.gradesubmission.Constants;
+import com.ltp.gradesubmission.Grade;
+import com.ltp.gradesubmission.Repository.GradeRepository;
+import com.ltp.gradesubmission.Service.GradeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,20 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class GradeContriller {
+public class GradeController {
 
-    List<Grade> studentGrades = new ArrayList<>();
+    GradeService gradeService = new GradeService();
 
     @GetMapping("/grades")
     public String getGrades(Model model) {
-        model.addAttribute("grades", studentGrades);
+        model.addAttribute("grades", gradeService.getGrades());
         return "grades";
     }
 
     @GetMapping("/form")
     public String gradeForm(Model model, @RequestParam(required = false) String id) {
-        int index = getGradeIndex(id);
-        model.addAttribute("grade", index == Constants.NOT_FOUND ? new Grade() : studentGrades.get(index));
+        model.addAttribute("grade", gradeService.getGraeById(id));
         return "form";
     }
 
@@ -34,21 +37,9 @@ public class GradeContriller {
         System.out.println("Has errors? : " + result.hasErrors());
         if (result.hasErrors()) return "form";
 
-        int index = getGradeIndex(grade.getId());
-
-        if (index == Constants.NOT_FOUND) {
-            studentGrades.add(grade);
-        } else {
-            studentGrades.set(index, grade);
-        }
+        gradeService.submitGrade(grade);
 
         return "redirect:/grades";
     }
 
-    public Integer getGradeIndex(String id) {
-        for (int i = 0; i < studentGrades.size(); i++) {
-            if (studentGrades.get(i).getId().equals(id)) return i;
-        }
-        return Constants.NOT_FOUND;
-    }
 }
