@@ -12,11 +12,12 @@ public class Grade {
     private String grade;
     private String id;
 
-//    public Grade(String name, String subject, String grade) {
-//        this.name = name;
-//        this.subject = subject;
-//        this.grade = grade;
-//    }
+    public Grade(String name, String subject, String grade) {
+        this.name = name;
+        this.subject = subject;
+        this.grade = grade;
+        this.id = UUID.randomUUID().toString();
+    }
 
     public Grade() {
         this.id = UUID.randomUUID().toString();
